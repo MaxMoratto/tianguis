@@ -7,31 +7,46 @@ import {
 import { getFirestore, type Firestore } from "firebase-admin/firestore";
 
 /**
- * Firebase Admin SDK (solo servidor). Lo usa el webhook de Stripe para marcar
- * el puesto como pagado en Firestore con permisos de administrador.
+ * Firebase Admin SDK (solo servidor) — inicialización PEREZOSA y tolerante.
  *
- * Requiere las variables FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL y
- * FIREBASE_PRIVATE_KEY (de una cuenta de servicio). Si faltan, queda inactivo.
+ * Se inicializa solo cuando se llama getAdminDb() en tiempo de petición (no al
+ * importar el módulo), para que un valor mal formado de la llave NUNCA rompa el
+ * build. Limpia comillas envolventes y convierte los \n a saltos de línea.
  */
-const projectId = process.env.FIREBASE_PROJECT_ID;
-const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n");
-
-export const adminEnabled = Boolean(projectId && clientEmail && privateKey);
-
-let adminDb: Firestore | null = null;
-
-if (adminEnabled) {
-  const app: App = getApps().length
-    ? getApps()[0]
-    : initializeApp({
-        credential: cert({
-          projectId: projectId as string,
-          clientEmail: clientEmail as string,
-          privateKey: privateKey as string,
-        }),
-      });
-  adminDb = getFirestore(app);
+function normalizeKey(k?: string): string | undefined {
+  if (!k) return undefined;
+  let key = k.trim();
+  if (
+    (key.startsWith('"') && key.endsWith('"')) ||
+    (key.startsWith("'") && key.endsWith("'"))
+  ) {
+    key = key.slice(1, -1);
+  }
+  key = key.replace(/\\n/g, "\n");
+  return key;
 }
 
-export { adminDb };
+let cached: Firestore | null = null;
+
+export function getAdminDb(): Firestore | null {
+  if (cached) return cached;
+
+  const projectId = process.env.FIREBASE_PROJECT_ID;
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const privateKey = normalizeKey(process.env.FIREBASE_PRIVATE_KEY);
+
+  if (!projectId || !clientEmail || !privateKey) return null;
+
+  try {
+    const app: App = getApps().length
+      ? getApps()[0]
+      : initializeApp({
+          credential: cert({ projectId, clientEmail, privateKey }),
+        });
+    cached = getFirestore(app);
+    return cached;
+  } catch (e) {
+    console.error("Firebase Admin no se pudo inicializar:", e);
+    return null;
+  }
+}
