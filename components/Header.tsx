@@ -21,7 +21,7 @@ export default function Header() {
         <div className="nav-right">
           <MarketStatusPill />
           <AuthButton />
-          <Link className="btn btn-primary btn-sm" href="/panel/vendedor">
+          <Link className="btn btn-primary btn-sm" href="/rentar">
             Abrir mi puesto
           </Link>
         </div>

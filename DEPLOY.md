@@ -112,3 +112,42 @@ con foto (que se guardan en Firestore + Storage).
 - [ ] 6 variables de entorno en Vercel
 - [ ] Reglas de Firestore y Storage publicadas
 - [ ] (Opcional) `npm run seed`
+
+---
+
+## 💳 Paso 7 · Cobros con Stripe (renta de puestos, mensual)
+
+El código ya está listo (`/rentar`, `/api/checkout`, `/api/stripe/webhook`).
+Solo faltan tu cuenta y llaves. Empieza en **modo prueba (test)**.
+
+1. Crea cuenta en https://stripe.com y entra en **modo prueba** (toggle "Test mode").
+2. **Crea 3 productos con precio mensual recurrente** (Products → Add product):
+   - Puesto Básico — $40 MXN / mes
+   - Puesto Destacado — $120 MXN / mes
+   - Puesto Premium — $400 MXN / mes
+   Copia el **Price ID** (`price_…`) de cada uno.
+3. **Developers → API keys**: copia la *Publishable key* y la *Secret key* (de prueba).
+4. **Webhook**: Developers → Webhooks → Add endpoint →
+   URL `https://TU-DOMINIO.vercel.app/api/stripe/webhook`,
+   eventos `checkout.session.completed` e `invoice.paid`. Copia el *Signing secret* (`whsec_…`).
+5. **Firebase Admin** (para que el webhook active el puesto): Firebase console → ⚙️ →
+   Cuentas de servicio → *Generar nueva clave privada* (descarga un JSON).
+6. Agrega estas variables en **Vercel → Settings → Environment Variables** y redeploy:
+   ```
+   STRIPE_SECRET_KEY=sk_test_...
+   STRIPE_WEBHOOK_SECRET=whsec_...
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+   STRIPE_PRICE_BASICO=price_...
+   STRIPE_PRICE_DESTACADO=price_...
+   STRIPE_PRICE_PREMIUM=price_...
+   NEXT_PUBLIC_SITE_URL=https://TU-DOMINIO.vercel.app
+   FIREBASE_PROJECT_ID=tianguis-edf78
+   FIREBASE_CLIENT_EMAIL=(client_email del JSON)
+   FIREBASE_PRIVATE_KEY="(private_key del JSON, con comillas)"
+   ```
+7. Prueba con la tarjeta de test `4242 4242 4242 4242` (cualquier fecha/CVC).
+8. Cuando todo funcione en prueba, repite con las llaves **live** y activa tu cuenta
+   (datos de negocio y banco) para cobrar de verdad.
+
+> Mientras no haya llaves de Stripe, `/rentar` muestra los planes pero el botón
+> avisa que el pago no está configurado — el resto del sitio funciona igual.

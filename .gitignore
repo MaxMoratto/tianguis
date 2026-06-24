@@ -23,6 +23,12 @@ yarn-error.log*
 .env*.local
 .env
 
+# credenciales (¡NUNCA subir!) — cuenta de servicio de Firebase / llaves
+*-firebase-adminsdk-*.json
+serviceAccountKey.json
+*serviceaccount*.json
+*.key
+
 # vercel
 .vercel
 
