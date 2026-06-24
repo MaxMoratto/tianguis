@@ -307,6 +307,88 @@ td.r,th.r{text-align:right}
 .hide{display:none!important}
 
 /* =========================================================
+   INTERFAZ COMPACTA (estilo Mercado Libre) — todo más pequeño y denso
+   ========================================================= */
+body{font-size:15px}
+.nav-in{height:54px}
+.logo{font-size:17px}
+.logo .mark{width:30px;height:30px;font-size:16px;border-radius:9px}
+.nav-links a{font-size:13px;padding:6px 10px}
+.btn{padding:9px 16px;font-size:13.5px}
+.btn-sm{padding:6px 12px;font-size:12.5px}
+.eyebrow{font-size:12px;padding:6px 12px}
+h1.hero-title{font-size:clamp(27px,5vw,44px)}
+.hero-in{padding:44px 0 38px}
+.hero-sub{font-size:clamp(14px,2vw,17px)}
+section.block{padding:44px 0}
+.sec-head{margin-bottom:20px}
+h2.sec-title{font-size:clamp(20px,3vw,27px)}
+.sec-sub{font-size:13.5px}
+.cats{gap:12px}
+.cat{padding:13px 10px}
+.cat .emo{font-size:21px}
+.cat .nm{font-size:12.5px}
+.grid{gap:16px}
+.card .ph{font-size:46px}
+.card .body{padding:11px 12px 13px}
+.card .nm{font-size:14px}
+.card .meta{font-size:12px}
+.card .price{font-size:17px}
+.stalls{gap:16px}
+.plans{gap:16px}
+.plan-card{padding:20px}
+.plan-card .pn{font-size:17px}
+.plan-card .pp{font-size:30px}
+.plan-card li{font-size:13.5px}
+.counter{padding:16px 18px;margin-top:24px}
+.counter .big{font-size:14.5px}
+.clock{gap:9px;margin-top:12px}
+.clock .u{width:62px;padding:9px 0}
+.clock .u .n{font-size:25px}
+.clock .u .t{font-size:10px}
+.bigsearch{padding:6px 6px 6px 16px;margin-top:20px}
+.bigsearch input{font-size:15px}
+.trust{font-size:13px;gap:18px;margin-top:26px}
+.kpis{gap:12px}
+.kpi{padding:14px}
+.kpi .v{font-size:23px}
+.kpi .l{font-size:12px}
+.panel{padding:16px}
+.panel h3{font-size:15.5px}
+th,td{padding:9px 8px;font-size:13px}
+th{font-size:11px}
+.steps{gap:18px}
+.step h3{font-size:16px}
+.testi p{font-size:14px}
+.qa summary{font-size:15px;padding:15px 0}
+.qa p{font-size:14px}
+.cta-final{padding:44px}
+.cta-final h2{font-size:clamp(22px,3.5vw,32px)}
+.cta-final p{font-size:15px}
+.crumbs{font-size:12.5px}
+.chip{font-size:13px;padding:7px 12px}
+.dp h1{font-size:24px}
+.dp .price{font-size:30px}
+
+/* =========================================================
+   PANTALLA DE BIENVENIDA / CARGA (splash)
+   ========================================================= */
+.bienvenida{position:fixed;inset:0;z-index:200;
+  background:radial-gradient(700px 360px at 50% 30%, #0f6b46, var(--verde-900));
+  color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;transition:opacity .5s ease;opacity:1;text-align:center;padding:24px}
+.bienvenida.fade{opacity:0}
+.bv-mark{font-size:56px;line-height:1;animation:bvpop .5s ease}
+.bv-nombre{font-size:26px;font-weight:800;letter-spacing:-.02em}
+.bv-nombre .mx{color:var(--terracota)}
+.bv-tag{color:#bfe6d1;font-size:13.5px}
+.bv-bar{width:180px;height:5px;background:rgba(255,255,255,.22);border-radius:999px;overflow:hidden;margin-top:6px}
+.bv-bar i{display:block;height:100%;width:0;background:#fff;border-radius:999px;animation:bvload 1.6s ease forwards}
+.bv-hola{font-size:14px;font-weight:700;margin-top:2px}
+@keyframes bvload{to{width:100%}}
+@keyframes bvpop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* =========================================================
    MÓVIL — correcciones y pulido (los usuarios son mayoría en celular)
    ========================================================= */
 html,body{overflow-x:clip;max-width:100%}

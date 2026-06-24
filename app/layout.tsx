@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { AuthProvider } from "@/components/AuthProvider";
+import Bienvenida from "@/components/Bienvenida";
 
 export const metadata: Metadata = {
   title: "Tianguis Digital MX — El mercado que abre por horas",
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body>
+        <Bienvenida />
         <AuthProvider>
           <Header />
           <main>{children}</main>
