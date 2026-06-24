@@ -309,7 +309,7 @@ td.r,th.r{text-align:right}
 /* =========================================================
    MÓVIL — correcciones y pulido (los usuarios son mayoría en celular)
    ========================================================= */
-html,body{overflow-x:hidden;max-width:100%}
+html,body{overflow-x:clip;max-width:100%}
 img,video,table{max-width:100%}
 
 @media(max-width:640px){

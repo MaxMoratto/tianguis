@@ -43,7 +43,7 @@ export default async function HomePage() {
             <Link className="btn btn-dark" href="/mercado">
               Explorar el mercado
             </Link>
-            <Link className="btn btn-outline" href="/panel/vendedor">
+            <Link className="btn btn-outline" href="/rentar">
               Abrir mi puesto desde $10
             </Link>
           </div>
@@ -211,7 +211,7 @@ export default async function HomePage() {
                 <li>10 fotos por producto</li>
                 <li>Chat con compradores</li>
               </ul>
-              <Link className="btn btn-outline btn-block" href="/panel/vendedor">
+              <Link className="btn btn-outline btn-block" href="/rentar">
                 Empezar
               </Link>
             </div>
@@ -227,7 +227,7 @@ export default async function HomePage() {
                 <li>Estadísticas avanzadas</li>
                 <li>Video por producto</li>
               </ul>
-              <Link className="btn btn-primary btn-block" href="/panel/vendedor">
+              <Link className="btn btn-primary btn-block" href="/rentar">
                 Elegir Destacado
               </Link>
             </div>
@@ -243,7 +243,7 @@ export default async function HomePage() {
                 <li>Soporte prioritario</li>
                 <li>Productos ilimitados</li>
               </ul>
-              <Link className="btn btn-outline btn-block" href="/panel/vendedor">
+              <Link className="btn btn-outline btn-block" href="/rentar">
                 Elegir Premium
               </Link>
             </div>
@@ -377,7 +377,7 @@ export default async function HomePage() {
             <h2>El próximo día de mercado te está esperando</h2>
             <p>Abre tu puesto desde $10 o explora los hallazgos de hoy.</p>
             <div className="hero-cta" style={{ marginTop: 24 }}>
-              <Link className="btn btn-primary" href="/panel/vendedor">
+              <Link className="btn btn-primary" href="/rentar">
                 Abrir mi puesto
               </Link>
               <Link
