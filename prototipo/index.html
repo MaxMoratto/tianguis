@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tianguis Digital MX — El mercado que abre por horas</title>
+<meta name="description" content="Tianguis Digital MX: el mercado en línea inspirado en los tianguis mexicanos. Abre miércoles y sábados. Renta tu puesto digital desde $10 MXN a la semana." />
+<style>
+  :root{
+    /* Paleta */
+    --verde:#0a7d4f;            /* verde mexicano principal */
+    --verde-700:#06623b;
+    --verde-900:#0a3d27;
+    --verde-50:#e8f5ee;
+    --terracota:#e0654b;        /* acento cálido tianguis */
+    --amarillo:#f4b740;
+    --negro:#101413;
+    --gris-900:#1b211f;
+    --gris-700:#4b5450;
+    --gris-500:#79827d;
+    --gris-300:#cfd6d1;
+    --gris-100:#eef1ef;
+    --gris-50:#f7f9f8;
+    --blanco:#ffffff;
+    --rojo:#d23b3b;
+    --sombra:0 1px 2px rgba(16,20,19,.06), 0 8px 24px rgba(16,20,19,.08);
+    --sombra-sm:0 1px 2px rgba(16,20,19,.08);
+    --radio:18px;
+    --radio-sm:12px;
+    --ancho:1160px;
+    --fuente: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--fuente);
+    color:var(--negro);
+    background:var(--blanco);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  a{color:inherit;text-decoration:none;cursor:pointer}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--ancho);margin:0 auto;padding:0 22px}
+  .mt8{margin-top:8px}.mt16{margin-top:16px}.mt24{margin-top:24px}.mt40{margin-top:40px}.mt64{margin-top:64px}
+  .muted{color:var(--gris-700)}
+  .center{text-align:center}
+
+  /* ===== Botones ===== */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;white-space:nowrap}
+  .btn:active{transform:translateY(1px)}
+  .btn-primary{background:var(--verde);color:#fff}
+  .btn-primary:hover{background:var(--verde-700)}
+  .btn-ghost{background:var(--gris-100);color:var(--negro)}
+  .btn-ghost:hover{background:var(--gris-300)}
+  .btn-dark{background:var(--negro);color:#fff}
+  .btn-outline{border:1.5px solid var(--gris-300);color:var(--negro)}
+  .btn-outline:hover{border-color:var(--negro)}
+  .btn-block{width:100%}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .btn-sm{padding:8px 14px;font-size:13px}
+
+  /* ===== Header ===== */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.85);
+    backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--gris-100)}
+  .nav-in{display:flex;align-items:center;gap:18px;height:66px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:-.02em}
+  .logo .mark{width:34px;height:34px;border-radius:10px;background:var(--verde);
+    display:grid;place-items:center;color:#fff;font-size:18px;box-shadow:var(--sombra-sm)}
+  .logo .mx{color:var(--terracota)}
+  .nav-links{display:flex;gap:6px;margin-left:8px}
+  .nav-links a{padding:8px 12px;border-radius:10px;font-size:14.5px;font-weight:500;color:var(--gris-700)}
+  .nav-links a:hover{background:var(--gris-50);color:var(--negro)}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .statuspill{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:999px;
+    font-size:12.5px;font-weight:700;border:1px solid transparent}
+  .statuspill .dot{width:8px;height:8px;border-radius:50%}
+  .open{background:var(--verde-50);color:var(--verde-700);border-color:#bfe6d1}
+  .open .dot{background:var(--verde);box-shadow:0 0 0 3px rgba(10,125,79,.18);animation:pulse 1.6s infinite}
+  .closed{background:#fbecea;color:#b83a26;border-color:#f3cfc7}
+  .closed .dot{background:var(--terracota)}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(10,125,79,.35)}70%{box-shadow:0 0 0 6px rgba(10,125,79,0)}100%{box-shadow:0 0 0 0 rgba(10,125,79,0)}}
+
+  /* ===== Hero ===== */
+  .hero{position:relative;overflow:hidden;background:
+     radial-gradient(1200px 480px at 78% -10%, rgba(244,183,64,.18), transparent 60%),
+     radial-gradient(900px 460px at 8% 0%, rgba(10,125,79,.10), transparent 55%),
+     var(--gris-50);
+     border-bottom:1px solid var(--gris-100)}
+  .hero-in{padding:64px 0 56px;text-align:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--gris-200,#e6eae8);
+    padding:7px 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--verde-700);box-shadow:var(--sombra-sm)}
+  h1.hero-title{font-size:clamp(34px,6vw,60px);line-height:1.03;letter-spacing:-.03em;font-weight:800;margin-top:18px}
+  h1.hero-title .hl{color:var(--verde);position:relative;white-space:nowrap}
+  .hero-sub{font-size:clamp(16px,2.3vw,20px);color:var(--gris-700);max-width:640px;margin:18px auto 0}
+
+  /* contador */
+  .counter{margin:30px auto 0;max-width:560px;background:#fff;border:1px solid var(--gris-100);
+    border-radius:var(--radio);box-shadow:var(--sombra);padding:20px 22px}
+  .counter .label{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gris-500)}
+  .counter .big{font-weight:700;font-size:16px;margin-top:2px}
+  .clock{display:flex;justify-content:center;gap:10px;margin-top:14px}
+  .clock .u{background:var(--negro);color:#fff;border-radius:14px;padding:12px 0;width:74px;text-align:center}
+  .clock .u .n{font-size:30px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+  .clock .u .t{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#bcc7c1;margin-top:6px}
+  .counter.isopen .clock .u{background:var(--verde)}
+
+  /* buscador gigante */
+  .bigsearch{margin:26px auto 0;max-width:680px;display:flex;align-items:center;gap:10px;
+    background:#fff;border:1.5px solid var(--gris-300);border-radius:999px;padding:8px 8px 8px 20px;box-shadow:var(--sombra)}
+  .bigsearch:focus-within{border-color:var(--verde)}
+  .bigsearch input{flex:1;border:none;outline:none;font-size:17px;background:transparent}
+  .bigsearch .ico{font-size:20px;color:var(--gris-500)}
+  .hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+  .trust{display:flex;gap:26px;justify-content:center;flex-wrap:wrap;margin-top:34px;color:var(--gris-700);font-size:14px}
+  .trust b{color:var(--negro)}
+
+  /* ===== Secciones ===== */
+  section.block{padding:64px 0}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:26px}
+  h2.sec-title{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;font-weight:800}
+  .sec-sub{color:var(--gris-700);margin-top:6px;font-size:15.5px}
+  .link-more{color:var(--verde-700);font-weight:700;font-size:14.5px}
+
+  /* categorías */
+  .cats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+  .cat{background:var(--gris-50);border:1px solid var(--gris-100);border-radius:var(--radio-sm);
+    padding:18px 12px;text-align:center;transition:.14s}
+  .cat:hover{background:#fff;box-shadow:var(--sombra);transform:translateY(-2px);border-color:var(--gris-100)}
+  .cat .emo{font-size:26px}
+  .cat .nm{font-size:13.5px;font-weight:600;margin-top:8px}
+
+  /* grid productos */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .card{background:#fff;border:1px solid var(--gris-100);border-radius:var(--radio);overflow:hidden;
+    box-shadow:var(--sombra-sm);transition:.16s;display:flex;flex-direction:column}
+  .card:hover{box-shadow:var(--sombra);transform:translateY(-3px)}
+  .card .ph{aspect-ratio:4/3;display:grid;place-items:center;font-size:54px;position:relative}
+  .card .badge{position:absolute;top:10px;left:10px;background:rgba(16,20,19,.78);color:#fff;
+    font-size:11px;font-weight:700;padding:4px 9px;border-radius:999px;backdrop-filter:blur(4px)}
+  .card .fav{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;
+    background:rgba(255,255,255,.9);display:grid;place-items:center;font-size:15px;box-shadow:var(--sombra-sm)}
+  .card .body{padding:14px 14px 16px;display:flex;flex-direction:column;flex:1}
+  .card .nm{font-weight:700;font-size:15px;letter-spacing:-.01em}
+  .card .meta{font-size:12.5px;color:var(--gris-500);margin-top:3px}
+  .card .price{font-size:19px;font-weight:800;margin-top:10px}
+  .card .row{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+  .estado{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
+  .e-nuevo{background:var(--verde-50);color:var(--verde-700)}
+  .e-usado{background:#fff3e0;color:#b9731a}
+  .e-restaurado{background:#eaf0fb;color:#3a5bb8}
+  .stars{color:var(--amarillo);font-size:13px;letter-spacing:1px}
+
+  /* puestos destacados */
+  .stalls{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .stall{border:1px solid var(--gris-100);border-radius:var(--radio);overflow:hidden;background:#fff;box-shadow:var(--sombra-sm);transition:.16s}
+  .stall:hover{box-shadow:var(--sombra);transform:translateY(-3px)}
+  .stall .cover{height:96px;display:flex;align-items:flex-end;padding:12px}
+  .stall .plan{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;
+    background:rgba(255,255,255,.92);padding:4px 10px;border-radius:999px}
+  .stall .b{padding:16px}
+  .stall .nm{font-weight:800;font-size:17px}
+  .stall .tag{font-size:13px;color:var(--gris-700);margin-top:2px}
+  .stall .st{display:flex;gap:14px;margin-top:12px;font-size:12.5px;color:var(--gris-700)}
+  .stall .st b{color:var(--negro)}
+
+  /* pasos */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .step{padding:6px}
+  .step .n{width:42px;height:42px;border-radius:12px;background:var(--verde-50);color:var(--verde-700);
+    display:grid;place-items:center;font-weight:800;font-size:18px}
+  .step h3{font-size:18px;margin-top:14px;letter-spacing:-.01em}
+  .step p{color:var(--gris-700);margin-top:6px;font-size:14.5px}
+
+  /* planes */
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch}
+  .plan-card{border:1.5px solid var(--gris-200,#e6eae8);border-radius:var(--radio);padding:26px;background:#fff;display:flex;flex-direction:column}
+  .plan-card.feat{border-color:var(--verde);box-shadow:0 12px 36px rgba(10,125,79,.16);position:relative}
+  .plan-card.feat::before{content:"Más popular";position:absolute;top:-12px;left:26px;background:var(--verde);
+    color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:999px}
+  .plan-card .pn{font-weight:800;font-size:19px}
+  .plan-card .pp{font-size:38px;font-weight:800;margin-top:8px;letter-spacing:-.02em}
+  .plan-card .pp span{font-size:15px;font-weight:600;color:var(--gris-500)}
+  .plan-card ul{list-style:none;margin:18px 0;display:flex;flex-direction:column;gap:10px}
+  .plan-card li{font-size:14.5px;color:var(--gris-700);display:flex;gap:9px;align-items:flex-start}
+  .plan-card li::before{content:"✓";color:var(--verde);font-weight:800}
+  .plan-card .btn{margin-top:auto}
+
+  /* testimonios */
+  .testis{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .testi{background:var(--gris-50);border:1px solid var(--gris-100);border-radius:var(--radio);padding:22px}
+  .testi p{font-size:15px}.testi .stars{margin-bottom:8px}
+  .testi .who{display:flex;align-items:center;gap:10px;margin-top:16px}
+  .avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:15px}
+  .testi .who b{font-size:14px}.testi .who .r{font-size:12.5px;color:var(--gris-500)}
+
+  /* faq */
+  .faq{max-width:760px;margin:0 auto}
+  .qa{border-bottom:1px solid var(--gris-100)}
+  .qa summary{list-style:none;cursor:pointer;padding:18px 0;font-weight:700;font-size:16.5px;display:flex;justify-content:space-between;gap:16px}
+  .qa summary::-webkit-details-marker{display:none}
+  .qa summary::after{content:"+";color:var(--verde);font-weight:800;font-size:22px;line-height:1}
+  .qa[open] summary::after{content:"–"}
+  .qa p{padding:0 0 18px;color:var(--gris-700);font-size:15px}
+
+  /* CTA final */
+  .cta-final{background:var(--verde-900);color:#fff;border-radius:26px;padding:54px;text-align:center;
+    background-image:radial-gradient(700px 300px at 80% 0%, rgba(244,183,64,.22), transparent 60%)}
+  .cta-final h2{font-size:clamp(26px,4vw,40px);letter-spacing:-.02em}
+  .cta-final p{color:#bfe6d1;margin-top:12px;font-size:17px}
+
+  /* footer */
+  footer{background:var(--negro);color:#c8d0cc;padding:54px 0 30px;margin-top:0}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}
+  footer .logo{color:#fff}
+  footer h4{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
+  footer a{display:block;padding:5px 0;font-size:14px;color:#9aa5a0}
+  footer a:hover{color:#fff}
+  .foot-bottom{border-top:1px solid #2a312e;margin-top:36px;padding-top:22px;font-size:13px;color:#7e8884;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  /* ===== Banner mercado cerrado ===== */
+  .closedbar{background:#fbecea;border:1px solid #f3cfc7;color:#b83a26;border-radius:14px;
+    padding:14px 18px;display:flex;align-items:center;gap:12px;font-size:14.5px;font-weight:600}
+  .openbar{background:var(--verde-50);border:1px solid #bfe6d1;color:var(--verde-700)}
+
+  /* ===== Subpáginas (marketplace, detalle, dashboards) ===== */
+  .page{padding:34px 0 64px;min-height:60vh}
+  .pagehead{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .crumbs{font-size:13px;color:var(--gris-500)}
+  .crumbs a{color:var(--verde-700);font-weight:600}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+  .chip{padding:8px 14px;border-radius:999px;border:1px solid var(--gris-300);font-size:13.5px;font-weight:600;background:#fff;color:var(--gris-700)}
+  .chip.active{background:var(--negro);color:#fff;border-color:var(--negro)}
+  .select{padding:9px 14px;border-radius:999px;border:1px solid var(--gris-300);font-size:13.5px;font-weight:600;background:#fff}
+  .searchline{display:flex;gap:10px;align-items:center;background:#fff;border:1.5px solid var(--gris-300);border-radius:999px;padding:6px 8px 6px 16px;max-width:520px;flex:1}
+  .searchline input{flex:1;border:none;outline:none;font-size:15px}
+
+  /* detalle producto */
+  .detail{display:grid;grid-template-columns:1.2fr 1fr;gap:34px}
+  .gallery .main{aspect-ratio:4/3;border-radius:var(--radio);display:grid;place-items:center;font-size:120px}
+  .thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+  .thumb{aspect-ratio:1;border-radius:10px;display:grid;place-items:center;font-size:26px;border:1px solid var(--gris-100);cursor:pointer}
+  .thumb:hover{border-color:var(--verde)}
+  .dp h1{font-size:28px;letter-spacing:-.02em;margin-top:6px}
+  .dp .price{font-size:34px;font-weight:800;margin:14px 0}
+  .selleline{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--gris-100);border-radius:14px;margin:18px 0}
+  .ratingbox{display:flex;gap:10px;margin:18px 0;flex-wrap:wrap}
+  .pill-rate{background:var(--gris-50);border:1px solid var(--gris-100);border-radius:12px;padding:10px 14px;font-size:13px}
+  .pill-rate b{display:block;font-size:18px}
+
+  /* dashboards */
+  .dash{display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:start}
+  .side{position:sticky;top:84px;background:#fff;border:1px solid var(--gris-100);border-radius:var(--radio);padding:14px}
+  .side .who{display:flex;align-items:center;gap:10px;padding:8px 8px 14px;border-bottom:1px solid var(--gris-100);margin-bottom:8px}
+  .side a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-size:14.5px;font-weight:600;color:var(--gris-700)}
+  .side a.active,.side a:hover{background:var(--verde-50);color:var(--verde-700)}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .kpi{background:#fff;border:1px solid var(--gris-100);border-radius:var(--radio);padding:18px}
+  .kpi .l{font-size:13px;color:var(--gris-500);font-weight:600}
+  .kpi .v{font-size:28px;font-weight:800;margin-top:6px;letter-spacing:-.02em}
+  .kpi .d{font-size:12.5px;font-weight:700;margin-top:4px}
+  .up{color:var(--verde)}.down{color:var(--rojo)}
+  .panel{background:#fff;border:1px solid var(--gris-100);border-radius:var(--radio);padding:20px;margin-top:18px}
+  .panel h3{font-size:17px;margin-bottom:14px}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:12px 10px;font-size:14px;border-bottom:1px solid var(--gris-100)}
+  th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--gris-500)}
+  td.r,th.r{text-align:right}
+  .tag-s{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:999px}
+  .t-act{background:var(--verde-50);color:var(--verde-700)}
+  .t-pend{background:#fff3e0;color:#b9731a}
+  .t-rev{background:#fbecea;color:#b83a26}
+
+  /* bars */
+  .bars{display:flex;align-items:flex-end;gap:10px;height:140px;margin-top:10px}
+  .bar{flex:1;background:var(--verde-50);border-radius:8px 8px 0 0;position:relative;display:flex;align-items:flex-end;justify-content:center}
+  .bar i{display:block;width:100%;background:var(--verde);border-radius:8px 8px 0 0}
+  .bar span{position:absolute;bottom:-22px;font-size:11px;color:var(--gris-500)}
+
+  /* responsive */
+  @media(max-width:960px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .cats{grid-template-columns:repeat(3,1fr)}
+    .stalls,.steps,.plans,.testis{grid-template-columns:1fr}
+    .detail{grid-template-columns:1fr}
+    .dash{grid-template-columns:1fr}
+    .side{position:static}
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .nav-links{display:none}
+  }
+  @media(max-width:560px){
+    .grid{grid-template-columns:1fr 1fr}
+    .cats{grid-template-columns:repeat(2,1fr)}
+    .kpis{grid-template-columns:1fr 1fr}
+    .clock .u{width:62px}
+  }
+  .hide{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="logo" data-nav="home">
+      <span class="mark">🛖</span><span>Tianguis<span class="mx">·MX</span></span>
+    </a>
+    <nav class="nav-links">
+      <a data-nav="market">Mercado</a>
+      <a data-nav="home" data-hash="planes">Planes</a>
+      <a data-nav="home" data-hash="como">Cómo funciona</a>
+      <a data-nav="seller">Vender</a>
+    </nav>
+    <div class="nav-right">
+      <span id="navStatus" class="statuspill closed"><span class="dot"></span><span class="txt">Cerrado</span></span>
+      <a class="btn btn-ghost btn-sm" data-nav="buyer">Entrar</a>
+      <a class="btn btn-primary btn-sm" data-nav="seller">Abrir mi puesto</a>
+    </div>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" data-nav="home"><span class="mark">🛖</span><span>Tianguis<span class="mx">·MX</span></span></a>
+        <p style="margin-top:14px;max-width:300px;font-size:14px;color:#9aa5a0">El mercado en línea que abre por horas. Productos únicos, vendedores locales, la energía del tianguis de siempre.</p>
+        <p style="margin-top:14px;font-size:13px;color:#7e8884">Miércoles y Sábado · 6:30 AM – 2:00 PM</p>
+      </div>
+      <div>
+        <h4>Comprar</h4>
+        <a data-nav="market">Explorar mercado</a>
+        <a data-nav="market">Categorías</a>
+        <a data-nav="buyer">Mi cuenta</a>
+        <a data-nav="home" data-hash="faq">Preguntas</a>
+      </div>
+      <div>
+        <h4>Vender</h4>
+        <a data-nav="seller">Abrir puesto</a>
+        <a data-nav="home" data-hash="planes">Planes y precios</a>
+        <a data-nav="seller">Panel vendedor</a>
+        <a data-nav="admin">Centro de control</a>
+      </div>
+      <div>
+        <h4>Empresa</h4>
+        <a data-nav="home">Nosotros</a>
+        <a data-nav="home">Centros de entrega</a>
+        <a data-nav="home">Seguridad</a>
+        <a data-nav="home">Contacto</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Tianguis Digital MX · Hecho en México 🇲🇽</span>
+      <span>Prototipo navegable · v0.1</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =========================================================
+   TIANGUIS DIGITAL MX — Prototipo navegable
+   Núcleo: horario del mercado, puestos, productos, búsqueda,
+   3 dashboards. Datos de ejemplo en memoria.
+   ========================================================= */
+
+/* ---------- Horario del mercado ----------
+   Abre Miércoles (3) y Sábado (6), 06:30 a 14:00 hora local. */
+const MARKET = { days:[3,6], open:{h:6,m:30}, close:{h:14,m:0} };
+
+function marketStatus(now=new Date()){
+  const d=now.getDay();
+  const mins=now.getHours()*60+now.getMinutes();
+  const o=MARKET.open.h*60+MARKET.open.m, c=MARKET.close.h*60+MARKET.close.m;
+  const isOpen = MARKET.days.includes(d) && mins>=o && mins<c;
+  return {isOpen, now};
+}
+function nextChange(now=new Date()){
+  // devuelve {label, target} hacia próxima apertura o próximo cierre
+  const st=marketStatus(now);
+  if(st.isOpen){
+    const t=new Date(now); t.setHours(MARKET.close.h,MARKET.close.m,0,0);
+    return {open:true, label:'Cierra en', target:t};
+  }
+  // buscar próxima apertura dentro de los próximos 7 días
+  for(let i=0;i<8;i++){
+    const t=new Date(now); t.setDate(now.getDate()+i); t.setHours(MARKET.open.h,MARKET.open.m,0,0);
+    if(MARKET.days.includes(t.getDay()) && t>now){
+      return {open:false, label:'Próxima apertura en', target:t};
+    }
+  }
+}
+const DIAS=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+function fmtTarget(t){
+  return `${DIAS[t.getDay()]} ${t.getDate()}/${t.getMonth()+1} · ${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}`;
+}
+
+/* ---------- Datos de ejemplo ---------- */
+const CATS=[
+  {id:'lentes',n:'Lentes',e:'🕶️'},{id:'electronica',n:'Electrónica',e:'📱'},
+  {id:'herramientas',n:'Herramientas',e:'🔧'},{id:'ropa',n:'Ropa',e:'👕'},
+  {id:'juguetes',n:'Juguetes',e:'🧸'},{id:'decoracion',n:'Decoración',e:'🪅'},
+  {id:'coleccionables',n:'Coleccionables',e:'🎴'},{id:'mascotas',n:'Mascotas',e:'🐕'},
+  {id:'hogar',n:'Hogar',e:'🏠'},{id:'vehiculos',n:'Vehículos',e:'🚗'},{id:'otros',n:'Otros',e:'📦'}
+];
+const COLORS=['#0a7d4f','#e0654b','#f4b740','#3a5bb8','#7a4fb0','#1aa3a3'];
+const PRODUCTS=[
+  {id:1,n:'Lentes Ray-Ban vintage',cat:'lentes',e:'🕶️',price:450,estado:'usado',stall:'El Baúl de Lupita',rating:4.8,bg:'#fff3e0',km:1.2,views:312},
+  {id:2,n:'iPhone 12 restaurado 128GB',cat:'electronica',e:'📱',price:5200,estado:'restaurado',stall:'TecnoTianguis',rating:4.9,bg:'#eaf0fb',km:3.4,views:980},
+  {id:3,n:'Taladro inalámbrico 20V',cat:'herramientas',e:'🔧',price:890,estado:'nuevo',stall:'Don Herramientas',rating:4.7,bg:'#e8f5ee',km:5.1,views:201},
+  {id:4,n:'Chamarra de mezclilla retro',cat:'ropa',e:'🧥',price:320,estado:'usado',stall:'Vintage MX',rating:4.6,bg:'#fbecea',km:0.8,views:154},
+  {id:5,n:'Lego Star Wars sellado',cat:'juguetes',e:'🧱',price:1450,estado:'nuevo',stall:'Juguetería El Sol',rating:5.0,bg:'#fff8e1',km:8.7,views:540},
+  {id:6,n:'Alebrije tallado a mano',cat:'decoracion',e:'🐉',price:680,estado:'nuevo',stall:'Arte Oaxaca',rating:4.9,bg:'#f3e9fb',km:12.0,views:430},
+  {id:7,n:'Cartas Pokémon 1ra edición',cat:'coleccionables',e:'🎴',price:2300,estado:'usado',stall:'Coleccio-MX',rating:4.8,bg:'#e8f5ee',km:4.0,views:760},
+  {id:8,n:'Casa para perro mediana',cat:'mascotas',e:'🐕',price:540,estado:'nuevo',stall:'Patitas Felices',rating:4.5,bg:'#fff3e0',km:2.2,views:99},
+  {id:9,n:'Licuadora Oster restaurada',cat:'hogar',e:'🍹',price:380,estado:'restaurado',stall:'Hogar Útil',rating:4.4,bg:'#eaf0fb',km:6.6,views:120},
+  {id:10,n:'Rines rin 15 (juego)',cat:'vehiculos',e:'🛞',price:3200,estado:'usado',stall:'AutoPartes Beto',rating:4.6,bg:'#f0f0f0',km:9.3,views:288},
+  {id:11,n:'Guitarra acústica usada',cat:'otros',e:'🎸',price:1100,estado:'usado',stall:'El Baúl de Lupita',rating:4.7,bg:'#fff3e0',km:1.2,views:340},
+  {id:12,n:'Reloj automático vintage',cat:'coleccionables',e:'⌚',price:1850,estado:'restaurado',stall:'Coleccio-MX',rating:4.9,bg:'#eef1ef',km:4.0,views:610}
+];
+const STALLS=[
+  {n:'El Baúl de Lupita',tag:'Vintage y curiosidades',plan:'Premium',rating:4.8,prod:24,ventas:312,bg:'linear-gradient(135deg,#0a7d4f,#06623b)'},
+  {n:'TecnoTianguis',tag:'Electrónica restaurada',plan:'Destacado',rating:4.9,prod:18,ventas:540,bg:'linear-gradient(135deg,#3a5bb8,#26408a)'},
+  {n:'Arte Oaxaca',tag:'Artesanía mexicana',plan:'Premium',rating:4.9,prod:31,ventas:480,bg:'linear-gradient(135deg,#e0654b,#b83a26)'}
+];
+const PLAN_COLOR={Básico:'#79827d',Destacado:'#f4b740',Premium:'#0a7d4f'};
+const money=n=>'$'+n.toLocaleString('es-MX');
+const estClass=e=>({nuevo:'e-nuevo',usado:'e-usado',restaurado:'e-restaurado'}[e]);
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+
+/* ---------- Render: tarjeta de producto ---------- */
+function productCard(p){
+  return `<a class="card" data-nav="product" data-id="${p.id}">
+    <div class="ph" style="background:${p.bg}">
+      <span class="badge">${cap(p.estado)}</span>
+      <span class="fav" title="Favorito">🤍</span>
+      ${p.e}
+    </div>
+    <div class="body">
+      <div class="nm">${p.n}</div>
+      <div class="meta">${p.stall} · a ${p.km} km</div>
+      <div class="price">${money(p.price)}</div>
+      <div class="row">
+        <span class="estado ${estClass(p.estado)}">${cap(p.estado)}</span>
+        <span class="stars">★ ${p.rating}</span>
+      </div>
+    </div>
+  </a>`;
+}
+
+/* ================= VISTAS ================= */
+function viewHome(){
+  const featured=PRODUCTS.slice(0,8).map(productCard).join('');
+  const cats=CATS.slice(0,6).map(c=>`<a class="cat" data-nav="market" data-cat="${c.id}"><div class="emo">${c.e}</div><div class="nm">${c.n}</div></a>`).join('');
+  const stalls=STALLS.map(s=>`
+    <a class="stall" data-nav="stall" data-name="${s.n}">
+      <div class="cover" style="background:${s.bg}"><span class="plan" style="color:${PLAN_COLOR[s.plan]}">${s.plan}</span></div>
+      <div class="b">
+        <div class="nm">${s.n}</div>
+        <div class="tag">${s.tag}</div>
+        <div class="st"><span>★ <b>${s.rating}</b></span><span><b>${s.prod}</b> productos</span><span><b>${s.ventas}</b> ventas</span></div>
+      </div>
+    </a>`).join('');
+
+  return `
+  <!-- HERO -->
+  <section class="hero"><div class="wrap hero-in">
+    <span class="eyebrow">🇲🇽 El mercado que abre por horas</span>
+    <h1 class="hero-title">El <span class="hl">tianguis</span> de toda la vida,<br>ahora en tu pantalla</h1>
+    <p class="hero-sub">Productos únicos, de segunda mano y hechos a mano. El mercado abre miércoles y sábados — cuando suena la campana, empieza la acción.</p>
+
+    <div id="heroCounter" class="counter"></div>
+
+    <div class="bigsearch">
+      <span class="ico">🔍</span>
+      <input id="homeSearch" placeholder="Busca lentes, herramientas, alebrijes…" />
+      <button class="btn btn-primary" data-nav="market">Buscar</button>
+    </div>
+
+    <div class="hero-cta">
+      <a class="btn btn-dark" data-nav="market">Explorar el mercado</a>
+      <a class="btn btn-outline" data-nav="seller">Abrir mi puesto desde $10</a>
+    </div>
+
+    <div class="trust">
+      <span>🛖 <b>1,240</b> puestos activos</span>
+      <span>📦 <b>18,500</b> productos</span>
+      <span>⭐ <b>4.8</b> calificación promedio</span>
+      <span>🔒 Vendedores verificados</span>
+    </div>
+  </div></section>
+
+  <!-- CATEGORÍAS -->
+  <section class="block"><div class="wrap">
+    <div class="sec-head"><div><h2 class="sec-title">Explora por categoría</h2><div class="sec-sub">Once pasillos llenos de hallazgos</div></div>
+      <a class="link-more" data-nav="market">Ver todo →</a></div>
+    <div class="cats">${cats}</div>
+  </div></section>
+
+  <!-- PRODUCTOS DESTACADOS -->
+  <section class="block" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><div><h2 class="sec-title">Hallazgos destacados</h2><div class="sec-sub">Lo más visto este día de mercado</div></div>
+      <a class="link-more" data-nav="market">Ver más →</a></div>
+    <div class="grid">${featured}</div>
+  </div></section>
+
+  <!-- PUESTOS DESTACADOS -->
+  <section class="block" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><div><h2 class="sec-title">Puestos destacados</h2><div class="sec-sub">Vendedores con la mejor reputación</div></div></div>
+    <div class="stalls">${stalls}</div>
+  </div></section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="block" id="como" style="background:var(--gris-50);border-top:1px solid var(--gris-100);border-bottom:1px solid var(--gris-100)"><div class="wrap">
+    <div class="center" style="margin-bottom:36px"><h2 class="sec-title">Cómo funciona</h2><div class="sec-sub">Simple para todos, también para quien no es de la tecnología</div></div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Renta tu puesto</h3><p>Elige un plan desde $10 a la semana y sube hasta 10 fotos por producto. Publicar toma minutos.</p></div>
+      <div class="step"><div class="n">2</div><h3>El mercado abre</h3><p>Miércoles y sábados de 6:30 a 14:00. Todos llegan al mismo tiempo: tráfico concentrado y sensación de evento.</p></div>
+      <div class="step"><div class="n">3</div><h3>Vende sin comisión</h3><p>Solo pagas por exhibir. Lo que vendes es tuyo: cero comisión por venta. Entrega en persona o en un centro seguro.</p></div>
+    </div>
+  </div></section>
+
+  <!-- PLANES -->
+  <section class="block" id="planes"><div class="wrap">
+    <div class="center" style="margin-bottom:36px"><h2 class="sec-title">Renta tu puesto digital</h2><div class="sec-sub">Sin comisiones por venta. Solo pagas por exhibir.</div></div>
+    <div class="plans">
+      <div class="plan-card">
+        <div class="pn">Puesto Básico</div>
+        <div class="pp">$10 <span>/ semana</span></div>
+        <ul><li>Aparece en el mercado</li><li>Hasta 20 productos</li><li>10 fotos por producto</li><li>Chat con compradores</li></ul>
+        <a class="btn btn-outline btn-block" data-nav="seller">Empezar</a>
+      </div>
+      <div class="plan-card feat">
+        <div class="pn">Puesto Destacado</div>
+        <div class="pp">$30 <span>/ semana</span></div>
+        <ul><li>Todo lo del Básico</li><li>Aparece arriba en búsquedas</li><li>Insignia "Destacado"</li><li>Estadísticas avanzadas</li><li>Video por producto</li></ul>
+        <a class="btn btn-primary btn-block" data-nav="seller">Elegir Destacado</a>
+      </div>
+      <div class="plan-card">
+        <div class="pn">Puesto Premium</div>
+        <div class="pp">$100 <span>/ semana</span></div>
+        <ul><li>Todo lo del Destacado</li><li>Portada en la home</li><li>Promoción en categorías</li><li>Soporte prioritario</li><li>Productos ilimitados</li></ul>
+        <a class="btn btn-outline btn-block" data-nav="seller">Elegir Premium</a>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- TESTIMONIOS -->
+  <section class="block" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><div><h2 class="sec-title">Lo que dice la banda</h2></div></div>
+    <div class="testis">
+      <div class="testi"><div class="stars">★★★★★</div><p>"Vendí mis cosas en un solo sábado. La gente llega con ganas de comprar porque saben que el mercado cierra."</p>
+        <div class="who"><div class="avatar" style="background:#0a7d4f">L</div><div><b>Lupita R.</b><div class="r">Vendedora · CDMX</div></div></div></div>
+      <div class="testi"><div class="stars">★★★★★</div><p>"Encontré un iPhone restaurado buenísimo y a buen precio. Me gusta que sea local y pueda recoger cerca."</p>
+        <div class="who"><div class="avatar" style="background:#e0654b">C</div><div><b>Carlos M.</b><div class="r">Comprador · Puebla</div></div></div></div>
+      <div class="testi"><div class="stars">★★★★★</div><p>"Por $30 a la semana mi puesto aparece arriba. Sin comisiones, todo lo que vendo es mío."</p>
+        <div class="who"><div class="avatar" style="background:#3a5bb8">A</div><div><b>Ana L.</b><div class="r">Vendedora · Guadalajara</div></div></div></div>
+    </div>
+  </div></section>
+
+  <!-- FAQ -->
+  <section class="block" id="faq" style="background:var(--gris-50);border-top:1px solid var(--gris-100)"><div class="wrap">
+    <div class="center" style="margin-bottom:30px"><h2 class="sec-title">Preguntas frecuentes</h2></div>
+    <div class="faq">
+      <details class="qa" open><summary>¿Por qué el mercado solo abre ciertos días?</summary><p>Igual que un tianguis real. Concentrar la actividad en miércoles y sábados crea urgencia, más tráfico al mismo tiempo y la sensación de evento. Fuera de horario puedes navegar y preparar tu puesto, pero las compras se habilitan solo en horario de mercado.</p></details>
+      <details class="qa"><summary>¿Cuánto cuesta vender?</summary><p>Desde $10 MXN a la semana por el Puesto Básico. No cobramos comisión por venta: solo pagas por exhibir tus productos.</p></details>
+      <details class="qa"><summary>¿Cómo recibo mi dinero?</summary><p>Los pagos se acuerdan entre comprador y vendedor (efectivo en entrega, transferencia/SPEI, OXXO Pay, Mercado Pago, etc.). Próximamente pagos protegidos dentro de la plataforma.</p></details>
+      <details class="qa"><summary>¿Es seguro?</summary><p>Verificamos por correo, SMS e identificación oficial. Tenemos reputación pública, reportes, moderación con IA y centros de entrega seguros en papelerías y tiendas afiliadas.</p></details>
+      <details class="qa"><summary>¿Necesito saber de tecnología?</summary><p>No. Está diseñado para ser sencillo, con letra grande y pasos claros, pensado también para personas mayores.</p></details>
+    </div>
+  </div></section>
+
+  <!-- CTA FINAL -->
+  <section class="block"><div class="wrap">
+    <div class="cta-final">
+      <h2>El próximo día de mercado te está esperando</h2>
+      <p>Abre tu puesto desde $10 o explora los hallazgos de hoy.</p>
+      <div class="hero-cta" style="margin-top:24px">
+        <a class="btn btn-primary" data-nav="seller">Abrir mi puesto</a>
+        <a class="btn btn-outline" style="border-color:rgba(255,255,255,.4);color:#fff" data-nav="market">Explorar el mercado</a>
+      </div>
+    </div>
+  </div></section>
+  `;
+}
+
+function marketBanner(){
+  const st=marketStatus(); const nx=nextChange();
+  if(st.isOpen){
+    return `<div class="closedbar openbar">🟢 <span>Mercado <b>ABIERTO</b> — puedes comprar y apartar hasta el cierre (${fmtTarget(nx.target)}).</span></div>`;
+  }
+  return `<div class="closedbar">🔴 <span>Mercado <b>CERRADO</b> — puedes navegar y guardar favoritos. Las compras se habilitan en la <b>${nx.label.toLowerCase()}</b>: ${fmtTarget(nx.target)}.</span></div>`;
+}
+
+function viewMarket(cat='todos', q=''){
+  const chips=['todos',...CATS.map(c=>c.id)].map(id=>{
+    const label=id==='todos'?'Todos':CATS.find(c=>c.id===id).n;
+    return `<button class="chip ${id===cat?'active':''}" data-cat="${id}">${label}</button>`;
+  }).join('');
+  let list=PRODUCTS.filter(p=>(cat==='todos'||p.cat===cat));
+  if(q) list=list.filter(p=>p.n.toLowerCase().includes(q.toLowerCase()));
+  const grid=list.length?list.map(productCard).join(''):`<p class="muted" style="grid-column:1/-1;padding:40px 0;text-align:center">Sin resultados. Prueba otra categoría o término.</p>`;
+  return `<div class="page"><div class="wrap">
+    <div class="crumbs"><a data-nav="home">Inicio</a> / Mercado</div>
+    <div class="pagehead" style="margin-top:8px">
+      <div><h2 class="sec-title">Mercado abierto</h2><div class="sec-sub">${list.length} resultados · vendedores locales</div></div>
+    </div>
+    <div class="mt16">${marketBanner()}</div>
+    <div class="toolbar">
+      <div class="searchline"><span>🔍</span><input id="mkSearch" value="${q}" placeholder="Buscar en el mercado…"/></div>
+      <select class="select" id="radius"><option>Radio: 1 km</option><option>Radio: 5 km</option><option selected>Radio: 10 km</option><option>Radio: 20 km</option><option>Radio: 50 km</option></select>
+      <select class="select"><option>Ordenar: Relevancia</option><option>Precio: menor a mayor</option><option>Precio: mayor a menor</option><option>Mejor calificados</option><option>Más cercanos</option></select>
+      <button class="chip" data-nav="map">🗺️ Mapa</button>
+    </div>
+    <div class="toolbar">${chips}</div>
+    <div class="grid mt24">${grid}</div>
+  </div></div>`;
+}
+
+function viewProduct(id){
+  const p=PRODUCTS.find(x=>x.id==id)||PRODUCTS[0];
+  const st=marketStatus();
+  const thumbs=[p.e,'📷','📷','📷','📷'].map(t=>`<div class="thumb" style="background:${p.bg}">${t}</div>`).join('');
+  const buyBtns = st.isOpen
+    ? `<a class="btn btn-primary btn-block" style="font-size:16px;padding:14px">Comprar ahora · ${money(p.price)}</a>
+       <a class="btn btn-outline btn-block mt8" data-nav="buyer">Apartar producto</a>`
+    : `<button class="btn btn-block" disabled style="font-size:16px;padding:14px">🔒 Compra disponible en horario de mercado</button>
+       <a class="btn btn-outline btn-block mt8">🤍 Guardar en favoritos</a>`;
+  return `<div class="page"><div class="wrap">
+    <div class="crumbs"><a data-nav="home">Inicio</a> / <a data-nav="market">Mercado</a> / ${p.n}</div>
+    ${!st.isOpen?`<div class="mt16">${marketBanner()}</div>`:''}
+    <div class="detail mt24">
+      <div class="gallery">
+        <div class="main" style="background:${p.bg}">${p.e}</div>
+        <div class="thumbs">${thumbs}</div>
+      </div>
+      <div class="dp">
+        <span class="estado ${estClass(p.estado)}">${cap(p.estado)}</span>
+        <h1>${p.n}</h1>
+        <div class="muted">👁️ ${p.views} visualizaciones · a ${p.km} km de ti</div>
+        <div class="price">${money(p.price)}</div>
+        ${buyBtns}
+        <a class="btn btn-ghost btn-block mt8">💬 Mensaje al vendedor</a>
+
+        <div class="selleline">
+          <div class="avatar" style="background:#0a7d4f">${p.stall[0]}</div>
+          <div style="flex:1">
+            <b>${p.stall}</b>
+            <div class="muted" style="font-size:13px">★ ${p.rating} · Vendedor verificado 🔒</div>
+          </div>
+          <a class="btn btn-outline btn-sm" data-nav="stall" data-name="${p.stall}">Ver puesto</a>
+        </div>
+
+        <h3 style="margin-top:8px;font-size:16px">Reputación del vendedor</h3>
+        <div class="ratingbox">
+          <div class="pill-rate">Puntualidad <b>4.9</b></div>
+          <div class="pill-rate">Honestidad <b>4.8</b></div>
+          <div class="pill-rate">Comunicación <b>5.0</b></div>
+          <div class="pill-rate">Calidad <b>4.7</b></div>
+        </div>
+
+        <div class="panel" style="margin-top:8px">
+          <h3>Entrega segura</h3>
+          <p class="muted" style="font-size:14px">Recoge en un centro autorizado (papelería o tienda afiliada) con registro de fecha, hora y evidencia fotográfica. O coordina entrega en persona por chat.</p>
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+}
+
+function viewStall(name){
+  const s=STALLS.find(x=>x.n===name)||STALLS[0];
+  const prods=PRODUCTS.filter(p=>p.stall===s.n);
+  const grid=(prods.length?prods:PRODUCTS.slice(0,4)).map(productCard).join('');
+  return `<div class="page"><div class="wrap">
+    <div class="crumbs"><a data-nav="home">Inicio</a> / <a data-nav="market">Mercado</a> / ${s.n}</div>
+    <div class="stall" style="margin-top:16px;max-width:100%">
+      <div class="cover" style="background:${s.bg};height:130px"><span class="plan" style="color:${PLAN_COLOR[s.plan]}">${s.plan}</span></div>
+      <div class="b">
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:center">
+          <div><div class="nm" style="font-size:22px">${s.n} 🔒</div><div class="tag">${s.tag}</div></div>
+          <div style="display:flex;gap:10px">
+            <a class="btn btn-primary btn-sm">+ Seguir puesto</a>
+            <a class="btn btn-outline btn-sm">💬 Mensaje</a>
+          </div>
+        </div>
+        <div class="st" style="font-size:14px;margin-top:14px">
+          <span>★ <b>${s.rating}</b> reputación</span><span><b>${s.prod}</b> productos</span><span><b>${s.ventas}</b> ventas reportadas</span><span>📍 a 1.2 km</span>
+        </div>
+      </div>
+    </div>
+    <h2 class="sec-title" style="margin:30px 0 18px">Productos del puesto</h2>
+    <div class="grid">${grid}</div>
+  </div></div>`;
+}
+
+/* ---------- Dashboards ---------- */
+function dashSide(active, items, who){
+  return `<aside class="side">
+    <div class="who"><div class="avatar" style="background:${who.c}">${who.i}</div><div><b style="font-size:14px">${who.n}</b><div class="muted" style="font-size:12px">${who.r}</div></div></div>
+    ${items.map(it=>`<a class="${it.k===active?'active':''}">${it.e} ${it.n}</a>`).join('')}
+    <a data-nav="home" style="margin-top:8px;color:var(--gris-500)">↩ Volver al sitio</a>
+  </aside>`;
+}
+function kpi(l,v,d,up=true){return `<div class="kpi"><div class="l">${l}</div><div class="v">${v}</div><div class="d ${up?'up':'down'}">${up?'▲':'▼'} ${d}</div></div>`;}
+
+function viewSeller(){
+  const side=dashSide('inicio',[
+    {k:'inicio',e:'📊',n:'Resumen'},{k:'p',e:'📦',n:'Mis productos'},{k:'m',e:'💬',n:'Mensajes'},
+    {k:'e',e:'📈',n:'Estadísticas'},{k:'pl',e:'⭐',n:'Mi plan'},{k:'r',e:'🏅',n:'Reputación'}
+  ],{i:'L',n:'El Baúl de Lupita',r:'Plan Premium',c:'#0a7d4f'});
+  const rows=PRODUCTS.slice(0,5).map(p=>`<tr>
+    <td><b>${p.n}</b><div class="muted" style="font-size:12px">${cap(p.estado)}</div></td>
+    <td>${money(p.price)}</td><td>${p.views}</td><td>${Math.round(p.views*0.18)}</td>
+    <td><span class="tag-s t-act">Activo</span></td>
+    <td class="r"><a class="btn btn-outline btn-sm">Editar</a></td></tr>`).join('');
+  const bars=[40,65,55,90,70,85,100].map((h,i)=>`<div class="bar"><i style="height:${h}%"></i><span>${['L','M','M','J','V','S','D'][i]}</span></div>`).join('');
+  return `<div class="page"><div class="wrap">
+    <div class="pagehead"><div><div class="crumbs"><a data-nav="home">Inicio</a> / Panel del vendedor</div>
+      <h2 class="sec-title" style="margin-top:6px">Hola, Lupita 👋</h2></div>
+      <a class="btn btn-primary">+ Subir producto</a></div>
+    <div class="dash mt24">
+      ${side}
+      <div>
+        <div class="kpis">
+          ${kpi('Visualizaciones (7d)','3,420','12%')}
+          ${kpi('Clics a productos','612','8%')}
+          ${kpi('Consultas (chat)','48','5%')}
+          ${kpi('Ventas reportadas','27','15%')}
+        </div>
+        <div class="panel">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h3>Visualizaciones esta semana</h3><span class="muted" style="font-size:13px">Próx. mercado: Sáb 27/6</span></div>
+          <div class="bars">${bars}</div>
+        </div>
+        <div class="panel">
+          <div style="display:flex;justify-content:space-between;align-items:center"><h3>Mis productos</h3><a class="btn btn-ghost btn-sm">Renovar publicaciones</a></div>
+          <table><thead><tr><th>Producto</th><th>Precio</th><th>Vistas</th><th>Clics</th><th>Estado</th><th class="r">Acción</th></tr></thead><tbody>${rows}</tbody></table>
+        </div>
+        <div class="panel" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px">
+          <div><h3 style="margin:0">Plan Premium activo</h3><p class="muted" style="font-size:14px">$100/semana · renueva el 30/6 · portada en home incluida</p></div>
+          <a class="btn btn-outline btn-sm" data-nav="home" data-hash="planes">Cambiar plan</a>
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+}
+
+function viewBuyer(){
+  const side=dashSide('fav',[
+    {k:'fav',e:'🤍',n:'Favoritos'},{k:'h',e:'🕘',n:'Historial'},{k:'s',e:'👥',n:'Vendedores seguidos'},
+    {k:'m',e:'💬',n:'Mensajes'},{k:'c',e:'⚙️',n:'Mi cuenta'}
+  ],{i:'C',n:'Carlos M.',r:'Comprador verificado',c:'#e0654b'});
+  const favs=PRODUCTS.slice(1,5).map(productCard).join('');
+  return `<div class="page"><div class="wrap">
+    <div class="crumbs"><a data-nav="home">Inicio</a> / Mi cuenta</div>
+    <h2 class="sec-title" style="margin:6px 0 0">Mi tianguis</h2>
+    <div class="dash mt24">
+      ${side}
+      <div>
+        <div class="kpis">
+          ${kpi('Favoritos','14','3 nuevos')}
+          ${kpi('Vendedores seguidos','6','2')}
+          ${kpi('Compras realizadas','9','1')}
+          ${kpi('Mensajes activos','3','',false)}
+        </div>
+        <div class="panel"><h3>Tus favoritos</h3><div class="grid" style="grid-template-columns:repeat(4,1fr)">${favs}</div></div>
+        <div class="panel"><h3>Historial reciente</h3>
+          <table><thead><tr><th>Producto</th><th>Vendedor</th><th>Fecha</th><th>Estado</th><th class="r">Reputación</th></tr></thead><tbody>
+            <tr><td>iPhone 12 restaurado</td><td>TecnoTianguis</td><td>14/6/2026</td><td><span class="tag-s t-act">Entregado</span></td><td class="r">★ Calificar</td></tr>
+            <tr><td>Cartas Pokémon</td><td>Coleccio-MX</td><td>7/6/2026</td><td><span class="tag-s t-act">Entregado</span></td><td class="r">★★★★★</td></tr>
+            <tr><td>Alebrije tallado</td><td>Arte Oaxaca</td><td>31/5/2026</td><td><span class="tag-s t-pend">En entrega</span></td><td class="r">—</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+}
+
+function viewAdmin(){
+  const side=dashSide('mod',[
+    {k:'res',e:'📊',n:'Resumen'},{k:'mod',e:'🛡️',n:'Moderación IA'},{k:'u',e:'👥',n:'Usuarios'},
+    {k:'pub',e:'📦',n:'Publicaciones'},{k:'ing',e:'💰',n:'Ingresos'},{k:'cen',e:'🏪',n:'Centros de entrega'}
+  ],{i:'A',n:'Admin · Tianguis MX',r:'Centro de control',c:'#101413'});
+  return `<div class="page"><div class="wrap">
+    <div class="crumbs"><a data-nav="home">Inicio</a> / Centro de control</div>
+    <h2 class="sec-title" style="margin:6px 0 0">Panel del administrador</h2>
+    <div class="dash mt24">
+      ${side}
+      <div>
+        <div class="kpis">
+          ${kpi('Puestos activos','1,240','6%')}
+          ${kpi('Usuarios totales','42,800','9%')}
+          ${kpi('Ingresos semana','$38,600','11%')}
+          ${kpi('Reportes abiertos','7','2',false)}
+        </div>
+        <div class="panel">
+          <h3>🛡️ Cola de moderación (IA)</h3>
+          <table><thead><tr><th>Elemento</th><th>Motivo detectado</th><th>Riesgo</th><th class="r">Acción</th></tr></thead><tbody>
+            <tr><td>Publicación #8842</td><td>Posible imagen inapropiada</td><td><span class="tag-s t-rev">Alto</span></td><td class="r"><a class="btn btn-outline btn-sm">Revisar</a></td></tr>
+            <tr><td>Usuario @ventas_xx</td><td>Cuenta duplicada sospechosa</td><td><span class="tag-s t-pend">Medio</span></td><td class="r"><a class="btn btn-outline btn-sm">Revisar</a></td></tr>
+            <tr><td>Publicación #8810</td><td>Categoría mal asignada (IA sugiere "Electrónica")</td><td><span class="tag-s t-act">Bajo</span></td><td class="r"><a class="btn btn-outline btn-sm">Reasignar</a></td></tr>
+            <tr><td>Usuario @rapidventa</td><td>Comportamiento sospechoso (spam de chat)</td><td><span class="tag-s t-rev">Alto</span></td><td class="r"><a class="btn btn-dark btn-sm">Bloquear</a></td></tr>
+          </tbody></table>
+        </div>
+        <div class="panel">
+          <h3>💰 Ingresos por plan (esta semana)</h3>
+          <table><thead><tr><th>Plan</th><th>Puestos</th><th>Precio</th><th class="r">Ingreso</th></tr></thead><tbody>
+            <tr><td><span class="tag-s" style="background:#eef1ef;color:#4b5450">Básico</span></td><td>720</td><td>$10</td><td class="r">$7,200</td></tr>
+            <tr><td><span class="tag-s t-pend">Destacado</span></td><td>410</td><td>$30</td><td class="r">$12,300</td></tr>
+            <tr><td><span class="tag-s t-act">Premium</span></td><td>110</td><td>$100</td><td class="r">$11,000</td></tr>
+            <tr style="font-weight:800"><td>Total</td><td>1,240</td><td>—</td><td class="r">$30,500</td></tr>
+          </tbody></table>
+        </div>
+      </div>
+    </div>
+  </div></div>`;
+}
+
+function viewMap(){
+  return `<div class="page"><div class="wrap">
+    <div class="crumbs"><a data-nav="home">Inicio</a> / <a data-nav="market">Mercado</a> / Mapa</div>
+    <h2 class="sec-title" style="margin:6px 0 18px">Mapa de actividad</h2>
+    <div style="position:relative;height:480px;border-radius:var(--radio);overflow:hidden;border:1px solid var(--gris-100);
+      background:linear-gradient(135deg,#e8f5ee,#f7f9f8);display:grid;place-items:center">
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(10,125,79,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(10,125,79,.07) 1px,transparent 1px);background-size:40px 40px"></div>
+      ${[['28%','30%','El Baúl de Lupita'],['62%','45%','TecnoTianguis'],['45%','66%','Arte Oaxaca'],['74%','24%','Don Herramientas'],['38%','50%','Vintage MX']]
+        .map(([t,l,n])=>`<div style="position:absolute;top:${t};left:${l};transform:translate(-50%,-100%);text-align:center">
+          <div style="background:var(--verde);color:#fff;font-size:11px;font-weight:700;padding:5px 10px;border-radius:999px;box-shadow:var(--sombra);white-space:nowrap">📍 ${n}</div></div>`).join('')}
+      <div style="position:relative;z-index:2;background:#fff;padding:14px 20px;border-radius:14px;box-shadow:var(--sombra);text-align:center">
+        <b>Mapa interactivo</b><div class="muted" style="font-size:13px">Geolocalización + radio de búsqueda (1–50 km).<br>Integración con Mapbox/Google Maps en producción.</div>
+      </div>
+    </div>
+  </div></div>`;
+}
+
+/* ================= ROUTER ================= */
+const app=document.getElementById('app');
+let current={view:'home'};
+function render(state){
+  current=state;
+  let html='';
+  switch(state.view){
+    case 'market': html=viewMarket(state.cat||'todos', state.q||''); break;
+    case 'product': html=viewProduct(state.id); break;
+    case 'stall': html=viewStall(state.name); break;
+    case 'seller': html=viewSeller(); break;
+    case 'buyer': html=viewBuyer(); break;
+    case 'admin': html=viewAdmin(); break;
+    case 'map': html=viewMap(); break;
+    default: html=viewHome();
+  }
+  app.innerHTML=html;
+  window.scrollTo(0,0);
+  if(state.view==='home'){ startHeroCounter(); if(state.hash){ const el=document.getElementById(state.hash); if(el) setTimeout(()=>el.scrollIntoView({behavior:'smooth'}),60);} }
+  bindMarketSearch();
+}
+
+/* navegación por delegación de clics */
+document.body.addEventListener('click',e=>{
+  const t=e.target.closest('[data-nav]');
+  if(!t) return;
+  e.preventDefault();
+  const view=t.getAttribute('data-nav');
+  const state={view};
+  if(t.dataset.id) state.id=t.dataset.id;
+  if(t.dataset.name) state.name=t.dataset.name;
+  if(t.dataset.cat) {state.view='market';state.cat=t.dataset.cat;}
+  if(t.dataset.hash) state.hash=t.dataset.hash;
+  render(state);
+});
+
+/* filtros del marketplace */
+app.addEventListener('click',e=>{
+  const chip=e.target.closest('.chip[data-cat]');
+  if(chip){ render({view:'market',cat:chip.dataset.cat,q:document.getElementById('mkSearch')?.value||''}); }
+});
+function bindMarketSearch(){
+  const s=document.getElementById('mkSearch');
+  if(s) s.addEventListener('keydown',e=>{ if(e.key==='Enter') render({view:'market',cat:current.cat||'todos',q:s.value}); });
+  const hs=document.getElementById('homeSearch');
+  if(hs) hs.addEventListener('keydown',e=>{ if(e.key==='Enter') render({view:'market',q:hs.value}); });
+}
+
+/* ================= Contadores en vivo ================= */
+function pad(n){return String(n).padStart(2,'0');}
+function renderCountdown(el){
+  const st=marketStatus(); const nx=nextChange();
+  const diff=Math.max(0, nx.target-new Date());
+  const d=Math.floor(diff/86400000), h=Math.floor(diff%86400000/3600000), m=Math.floor(diff%3600000/60000), s=Math.floor(diff%60000/1000);
+  el.classList.toggle('isopen', st.isOpen);
+  el.innerHTML=`
+    <div class="label">${st.isOpen?'🟢 Mercado abierto ahora':'🔴 Mercado cerrado'}</div>
+    <div class="big">${nx.label}: ${fmtTarget(nx.target)}</div>
+    <div class="clock">
+      <div class="u"><div class="n">${pad(d)}</div><div class="t">días</div></div>
+      <div class="u"><div class="n">${pad(h)}</div><div class="t">horas</div></div>
+      <div class="u"><div class="n">${pad(m)}</div><div class="t">min</div></div>
+      <div class="u"><div class="n">${pad(s)}</div><div class="t">seg</div></div>
+    </div>`;
+}
+let heroTimer=null;
+function startHeroCounter(){
+  const el=document.getElementById('heroCounter'); if(!el) return;
+  renderCountdown(el);
+  clearInterval(heroTimer);
+  heroTimer=setInterval(()=>{ const e=document.getElementById('heroCounter'); if(e) renderCountdown(e); else clearInterval(heroTimer); },1000);
+}
+/* status del header */
+function updateNavStatus(){
+  const st=marketStatus(); const pill=document.getElementById('navStatus');
+  pill.className='statuspill '+(st.isOpen?'open':'closed');
+  pill.querySelector('.txt').textContent=st.isOpen?'Abierto ahora':'Cerrado';
+}
+setInterval(updateNavStatus,1000); updateNavStatus();
+
+/* arranque */
+render({view:'home'});
+</script>
+</body>
+</html>

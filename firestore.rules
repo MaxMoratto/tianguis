@@ -1,0 +1,32 @@
+rules_version = '2';
+
+// Reglas de seguridad de Firestore para Tianguis Digital MX.
+// Lectura pública de catálogo (productos y puestos); escritura solo para
+// usuarios autenticados y dueños de su propio contenido.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Catálogo: cualquiera puede ver; solo el dueño autenticado puede crear/editar.
+    match /products/{id} {
+      allow read: if true;
+      allow create: if request.auth != null
+                    && request.resource.data.ownerId == request.auth.uid;
+      allow update, delete: if request.auth != null
+                    && resource.data.ownerId == request.auth.uid;
+    }
+
+    match /stalls/{slug} {
+      allow read: if true;
+      allow create: if request.auth != null
+                    && request.resource.data.ownerId == request.auth.uid;
+      allow update, delete: if request.auth != null
+                    && resource.data.ownerId == request.auth.uid;
+    }
+
+    // Perfil de usuario: cada quien lee/escribe el suyo.
+    match /users/{uid} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+  }
+}
