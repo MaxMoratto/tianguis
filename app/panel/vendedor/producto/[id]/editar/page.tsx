@@ -1,20 +1,25 @@
 import Link from "next/link";
 import ProductoForm from "@/components/ProductoForm";
 
-export const metadata = { title: "Subir producto — Tianguis Digital MX" };
+export const dynamic = "force-dynamic";
+export const metadata = { title: "Editar producto — Tianguis Digital MX" };
 
-export default function NuevoProductoPage() {
+export default function EditarProductoPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   return (
     <div className="page">
       <div className="wrap" style={{ maxWidth: 560 }}>
         <div className="crumbs">
           <Link href="/">Inicio</Link> /{" "}
-          <Link href="/panel/vendedor">Panel del vendedor</Link> / Nuevo producto
+          <Link href="/panel/vendedor">Panel del vendedor</Link> / Editar producto
         </div>
         <h2 className="sec-title" style={{ margin: "8px 0 0" }}>
-          Subir producto
+          Editar producto
         </h2>
-        <ProductoForm />
+        <ProductoForm productoId={Number(params.id)} />
       </div>
     </div>
   );

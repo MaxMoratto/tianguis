@@ -19,3 +19,17 @@ export async function subirFotoProducto(
   await uploadBytes(r, file);
   return getDownloadURL(r);
 }
+
+/**
+ * Sube varias fotos y devuelve sus URLs (en orden). Reutiliza subirFotoProducto.
+ */
+export async function subirFotosProducto(
+  uid: string,
+  files: File[]
+): Promise<string[]> {
+  const urls: string[] = [];
+  for (const file of files) {
+    urls.push(await subirFotoProducto(uid, file));
+  }
+  return urls;
+}

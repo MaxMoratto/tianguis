@@ -30,7 +30,7 @@ const PLAN = "basico";
 const DIAS = 30;
 
 const CANTIDAD = Number(process.argv[2]) || 1000;
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://TU-SITIO.vercel.app").replace(/\/$/, "");
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://tianguis-gilt.vercel.app").replace(/\/$/, "");
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT_DIR = join(__dirname, "..", "pases");

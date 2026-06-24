@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DashSide, Kpi, NavItem, Who } from "@/components/Dash";
 import EstadoPuesto from "@/components/EstadoPuesto";
+import MisProductos from "@/components/MisProductos";
 
 export const metadata = { title: "Panel del vendedor — Tianguis Digital MX" };
 export const dynamic = "force-dynamic";
@@ -43,19 +44,7 @@ export default function VendedorPage() {
               <Kpi l="Ventas reportadas" v="0" />
             </div>
 
-            <div className="panel">
-              <h3>Mis productos</h3>
-              <p className="muted" style={{ fontSize: 14 }}>
-                Aún no tienes productos.{" "}
-                <Link
-                  href="/panel/vendedor/nuevo"
-                  style={{ color: "var(--verde-700)", fontWeight: 700 }}
-                >
-                  Sube tu primer producto
-                </Link>{" "}
-                para empezar a vender.
-              </p>
-            </div>
+            <MisProductos />
 
             <EstadoPuesto />
           </div>

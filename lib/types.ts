@@ -19,7 +19,8 @@ export interface Product {
   bg: string; // color de fondo del placeholder
   km: number; // distancia aproximada
   views: number;
-  img?: string; // URL de foto (Firebase Storage) — opcional
+  img?: string; // URL de la PRIMERA foto (compatibilidad) — opcional
+  imgs?: string[]; // varias fotos (galería) — opcional
   ownerId?: string; // uid del vendedor dueño — opcional
 }
 

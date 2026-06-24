@@ -2,6 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import BuyBox from "@/components/BuyBox";
 import MarketBanner from "@/components/MarketBanner";
+import Galeria from "@/components/Galeria";
+import BotonEditarProducto from "@/components/BotonEditarProducto";
 import { getProductById, getStallByName } from "@/lib/data";
 import { money, cap, estClass } from "@/lib/format";
 
@@ -16,7 +18,7 @@ export default async function ProductoPage({
   if (!p) notFound();
 
   const stall = await getStallByName(p.stall);
-  const thumbs = [p.e, "📷", "📷", "📷", "📷"];
+  const fotos = p.imgs?.length ? p.imgs : p.img ? [p.img] : [];
 
   return (
     <div className="page">
@@ -31,18 +33,7 @@ export default async function ProductoPage({
         </div>
 
         <div className="detail mt24">
-          <div className="gallery">
-            <div className="main" style={{ background: p.bg }}>
-              {p.e}
-            </div>
-            <div className="thumbs">
-              {thumbs.map((t, i) => (
-                <div className="thumb" style={{ background: p.bg }} key={i}>
-                  {t}
-                </div>
-              ))}
-            </div>
-          </div>
+          <Galeria imgs={fotos} emoji={p.e} bg={p.bg} />
 
           <div className="dp">
             <span className={`estado ${estClass(p.estado)}`}>
@@ -52,6 +43,7 @@ export default async function ProductoPage({
             <div className="muted">
               👁️ {p.views} visualizaciones · a {p.km} km de ti
             </div>
+            <BotonEditarProducto productoId={p.id} ownerId={p.ownerId} />
             <div className="price">{money(p.price)}</div>
 
             <BuyBox price={p.price} />
@@ -84,18 +76,21 @@ export default async function ProductoPage({
             </h3>
             <div className="ratingbox">
               <div className="pill-rate">
-                Puntualidad <b>4.9</b>
+                Puntualidad <b>5.0</b>
               </div>
               <div className="pill-rate">
-                Honestidad <b>4.8</b>
+                Honestidad <b>5.0</b>
               </div>
               <div className="pill-rate">
                 Comunicación <b>5.0</b>
               </div>
               <div className="pill-rate">
-                Calidad <b>4.7</b>
+                Calidad <b>5.0</b>
               </div>
             </div>
+            <p className="muted" style={{ fontSize: 12.5, marginTop: 6 }}>
+              Vendedor nuevo · sin calificaciones todavía. Empieza con 5.0.
+            </p>
 
             <div className="panel" style={{ marginTop: 8 }}>
               <h3>Entrega segura</h3>
