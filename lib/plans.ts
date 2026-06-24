@@ -36,6 +36,7 @@ export const PLANES: PlanInfo[] = [
     destacado: true,
     beneficios: [
       "Todo lo del Básico",
+      "Hasta 60 productos",
       "Aparece arriba en búsquedas",
       "Insignia Destacado",
       "Estadísticas avanzadas",

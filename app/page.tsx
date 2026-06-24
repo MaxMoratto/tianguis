@@ -222,6 +222,7 @@ export default async function HomePage() {
               </div>
               <ul>
                 <li>Todo lo del Básico</li>
+                <li>Hasta 60 productos</li>
                 <li>Aparece arriba en búsquedas</li>
                 <li>Insignia &quot;Destacado&quot;</li>
                 <li>Estadísticas avanzadas</li>
