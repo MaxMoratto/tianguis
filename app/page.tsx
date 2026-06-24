@@ -49,15 +49,9 @@ export default async function HomePage() {
           </div>
 
           <div className="trust">
-            <span>
-              🛖 <b>1,240</b> puestos activos
-            </span>
-            <span>
-              📦 <b>18,500</b> productos
-            </span>
-            <span>
-              ⭐ <b>4.8</b> calificación promedio
-            </span>
+            <span>🛖 Renta tu puesto desde $40/mes</span>
+            <span>💸 Sin comisión por venta</span>
+            <span>📍 Vendedores locales</span>
             <span>🔒 Vendedores verificados</span>
           </div>
         </div>
@@ -99,9 +93,20 @@ export default async function HomePage() {
             </Link>
           </div>
           <div className="grid">
-            {featured.map((p) => (
-              <ProductCard p={p} key={p.id} />
-            ))}
+            {featured.length ? (
+              featured.map((p) => <ProductCard p={p} key={p.id} />)
+            ) : (
+              <p
+                className="muted"
+                style={{ gridColumn: "1/-1", padding: "30px 0", textAlign: "center" }}
+              >
+                Aún no hay productos publicados.{" "}
+                <Link className="link-more" href="/rentar">
+                  Abre tu puesto
+                </Link>{" "}
+                y sé el primero. 🛖
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -116,6 +121,14 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="stalls">
+            {!stalls.length && (
+              <p
+                className="muted"
+                style={{ gridColumn: "1/-1", padding: "20px 0", textAlign: "center" }}
+              >
+                Todavía no hay puestos. Los vendedores que renten aparecerán aquí.
+              </p>
+            )}
             {stalls.map((s) => (
               <Link className="stall" href={`/puesto/${s.slug}`} key={s.slug}>
                 <div className="cover" style={{ background: s.bg }}>

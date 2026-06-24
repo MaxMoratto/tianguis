@@ -1,9 +1,8 @@
 import Link from "next/link";
-import ProductCard from "@/components/ProductCard";
 import { DashSide, Kpi, NavItem, Who } from "@/components/Dash";
-import { getProducts } from "@/lib/data";
 
 export const metadata = { title: "Mi cuenta — Tianguis Digital MX" };
+export const dynamic = "force-dynamic";
 
 const items: NavItem[] = [
   { k: "fav", e: "🤍", n: "Favoritos" },
@@ -12,18 +11,9 @@ const items: NavItem[] = [
   { k: "m", e: "💬", n: "Mensajes" },
   { k: "c", e: "⚙️", n: "Mi cuenta" },
 ];
-const who: Who = {
-  i: "C",
-  n: "Carlos M.",
-  r: "Comprador verificado",
-  c: "#e0654b",
-};
+const who: Who = { i: "U", n: "Mi cuenta", r: "Comprador", c: "#e0654b" };
 
-export const dynamic = "force-dynamic";
-
-export default async function CompradorPage() {
-  const favs = (await getProducts()).slice(1, 5);
-
+export default function CompradorPage() {
   return (
     <div className="page">
       <div className="wrap">
@@ -38,63 +28,31 @@ export default async function CompradorPage() {
           <DashSide active="fav" items={items} who={who} />
           <div>
             <div className="kpis">
-              <Kpi l="Favoritos" v="14" d="3 nuevos" />
-              <Kpi l="Vendedores seguidos" v="6" d="2" />
-              <Kpi l="Compras realizadas" v="9" d="1" />
-              <Kpi l="Mensajes activos" v="3" />
+              <Kpi l="Favoritos" v="0" />
+              <Kpi l="Vendedores seguidos" v="0" />
+              <Kpi l="Compras realizadas" v="0" />
+              <Kpi l="Mensajes activos" v="0" />
             </div>
 
             <div className="panel">
               <h3>Tus favoritos</h3>
-              <div className="grid" style={{ gridTemplateColumns: "repeat(4,1fr)" }}>
-                {favs.map((p) => (
-                  <ProductCard p={p} key={p.id} />
-                ))}
-              </div>
+              <p className="muted" style={{ fontSize: 14 }}>
+                Aún no tienes favoritos. Explora el{" "}
+                <Link
+                  href="/mercado"
+                  style={{ color: "var(--verde-700)", fontWeight: 700 }}
+                >
+                  mercado
+                </Link>{" "}
+                y guarda lo que te guste.
+              </p>
             </div>
 
             <div className="panel">
               <h3>Historial reciente</h3>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Producto</th>
-                    <th>Vendedor</th>
-                    <th>Fecha</th>
-                    <th>Estado</th>
-                    <th className="r">Reputación</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>iPhone 12 restaurado</td>
-                    <td>TecnoTianguis</td>
-                    <td>14/6/2026</td>
-                    <td>
-                      <span className="tag-s t-act">Entregado</span>
-                    </td>
-                    <td className="r">★ Calificar</td>
-                  </tr>
-                  <tr>
-                    <td>Cartas Pokémon</td>
-                    <td>Coleccio-MX</td>
-                    <td>7/6/2026</td>
-                    <td>
-                      <span className="tag-s t-act">Entregado</span>
-                    </td>
-                    <td className="r">★★★★★</td>
-                  </tr>
-                  <tr>
-                    <td>Alebrije tallado</td>
-                    <td>Arte Oaxaca</td>
-                    <td>31/5/2026</td>
-                    <td>
-                      <span className="tag-s t-pend">En entrega</span>
-                    </td>
-                    <td className="r">—</td>
-                  </tr>
-                </tbody>
-              </table>
+              <p className="muted" style={{ fontSize: 14 }}>
+                Todavía no tienes compras registradas.
+              </p>
             </div>
           </div>
         </div>
