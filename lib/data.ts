@@ -8,6 +8,7 @@ import {
 } from "firebase/firestore";
 import { db, firebaseEnabled } from "./firebase";
 import type { Category, Product, Stall, Plan } from "./types";
+import { accesoVigente } from "./pases";
 
 /**
  * Capa de acceso a datos — SOLO datos reales (Firestore).
@@ -85,10 +86,22 @@ export async function getProductsByStall(name: string): Promise<Product[]> {
 
 // -------------------------- Lectura de puestos ---------------------------
 
+/**
+ * ¿Este puesto se muestra al público?
+ * Los puestos activados por un PASE de regalo desaparecen solos cuando vence su
+ * mes gratis. Los demás (demo o de paga vía Stripe) siempre se muestran.
+ */
+function visiblePublicamente(s: Stall): boolean {
+  if (s.origenAcceso === "pase") return accesoVigente(s);
+  return true;
+}
+
 export async function getStalls(): Promise<Stall[]> {
   if (firebaseEnabled && db) {
     const snap = await getDocs(collection(db, "stalls"));
-    return snap.docs.map((d) => d.data() as Stall);
+    return snap.docs
+      .map((d) => d.data() as Stall)
+      .filter(visiblePublicamente);
   }
   return [];
 }

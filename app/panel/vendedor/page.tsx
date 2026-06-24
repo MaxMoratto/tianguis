@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { DashSide, Kpi, NavItem, Who } from "@/components/Dash";
+import EstadoPuesto from "@/components/EstadoPuesto";
 
 export const metadata = { title: "Panel del vendedor — Tianguis Digital MX" };
 export const dynamic = "force-dynamic";
@@ -56,26 +57,7 @@ export default function VendedorPage() {
               </p>
             </div>
 
-            <div
-              className="panel"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                flexWrap: "wrap",
-                gap: 14,
-              }}
-            >
-              <div>
-                <h3 style={{ margin: 0 }}>Sin plan activo</h3>
-                <p className="muted" style={{ fontSize: 14 }}>
-                  Renta un puesto para aparecer en el mercado.
-                </p>
-              </div>
-              <Link className="btn btn-primary btn-sm" href="/rentar">
-                Rentar puesto
-              </Link>
-            </div>
+            <EstadoPuesto />
           </div>
         </div>
       </div>

@@ -32,4 +32,28 @@ export interface Stall {
   prod: number; // # de productos
   ventas: number; // ventas reportadas
   bg: string; // gradiente de portada
+
+  // --- Acceso / cobro (opcionales: no todos los puestos los tienen aún) ---
+  ownerId?: string; // uid del vendedor dueño
+  estadoPago?: "activo" | "inactivo"; // lo marca el webhook de Stripe o el canje de un pase
+  accesoHasta?: number; // timestamp (ms) en que vence el acceso. Solo para puestos por PASE.
+  origenAcceso?: "pase" | "stripe"; // cómo obtuvo el puesto su acceso
+  paseCodigo?: string; // código del pase con el que se activó (si aplica)
+}
+
+/**
+ * Pase de regalo: activa un puesto gratis por un tiempo, sin tarjeta.
+ * Documento en Firestore (colección "pases"), con id = código.
+ */
+export interface Pase {
+  codigo: string; // p. ej. TIANGUIS-A1B2 (también es el id del documento)
+  estado: "libre" | "usado";
+  plan: string; // id de plan que regala (p. ej. "basico")
+  dias: number; // duración del acceso gratis
+  creado: number; // timestamp ms
+  // Se rellenan al canjearse:
+  usadoPor?: string; // uid
+  usadoEmail?: string;
+  stallSlug?: string;
+  usadoEn?: number; // timestamp ms
 }

@@ -29,6 +29,9 @@ serviceAccountKey.json
 *serviceaccount*.json
 *.key
 
+# pases generados (lista de códigos para repartir) — quedan en tu disco, no en git
+/pases/
+
 # vercel
 .vercel
 
