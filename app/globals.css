@@ -305,3 +305,38 @@ td.r,th.r{text-align:right}
   .clock .u{width:62px}
 }
 .hide{display:none!important}
+
+/* =========================================================
+   MÓVIL — correcciones y pulido (los usuarios son mayoría en celular)
+   ========================================================= */
+html,body{overflow-x:hidden;max-width:100%}
+img,video,table{max-width:100%}
+
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+
+  /* Header: elimina el scroll horizontal causado por los botones de arriba */
+  .nav-in{gap:10px}
+  .logo{font-size:16px}
+  .logo .mark{width:30px;height:30px;font-size:16px}
+  .nav-right{gap:8px}
+  .statuspill{display:none}              /* el estado ya se muestra en el contador */
+  .nav-right .btn-sm{padding:8px 12px;font-size:13px}
+
+  /* Tablas: que se deslicen dentro de su tarjeta, no toda la página */
+  .panel{overflow-x:auto}
+  th,td{white-space:nowrap}
+
+  /* Respiración general en móvil */
+  section.block{padding:40px 0}
+  .hero-in{padding:40px 0 36px}
+  .cta-final{padding:32px 20px;border-radius:20px}
+  .sec-head{flex-direction:column;align-items:flex-start;gap:8px}
+}
+
+@media(max-width:380px){
+  /* pantallas muy chicas: el contador no debe desbordar */
+  .clock{gap:7px}
+  .clock .u{width:56px}
+  .clock .u .n{font-size:26px}
+}
